@@ -1,0 +1,22 @@
+<app-header></app-header>
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    
+    <!-- Botón de Alumnos -->
+    <div class="flex flex-col space-y-6">
+      <button [routerLink]="['/agregar']" class="bg-blue-500 text-white text-2xl font-bold p-10 rounded-2xl shadow-lg hover:bg-blue-600 transition">
+        Agregar Alumno
+      </button>
+    
+      <button [routerLink]="['/gestionar']" class="bg-indigo-500 text-white text-2xl font-bold p-10 rounded-2xl shadow-lg hover:bg-indigo-600 transition">
+        Gestionar Alumno
+      </button>
+    </div>
+
+    <!-- Botón de Redactar Aviso -->
+    <button [routerLink]="['/redactar']" class="bg-green-500 text-white text-2xl font-bold p-16 rounded-2xl shadow-lg hover:bg-green-600 transition">
+      Redactar Aviso
+    </button>
+
+  </div>
+</div>
