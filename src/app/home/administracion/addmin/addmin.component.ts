@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './addmin.component.html',
   styleUrl: './addmin.component.css'
 })
-export class AddminComponent {
+export default class AddminComponent {
   admin = {
     nombre: '',
     apellidoPaterno: '',

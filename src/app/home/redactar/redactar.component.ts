@@ -9,6 +9,6 @@ import { RouterModule } from '@angular/router';
   templateUrl: './redactar.component.html',
   styleUrl: './redactar.component.css'
 })
-export class RedactarComponent {
+export default class RedactarComponent {
 
 }

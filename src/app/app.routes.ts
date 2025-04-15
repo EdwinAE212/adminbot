@@ -1,16 +1,32 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './auth/login/login.component';
-import { InicioComponent } from './home/inicio/inicio.component';
-import { RedactarComponent } from './home/redactar/redactar.component';
-import { AgregarComponent } from './home/alumnos/agregar/agregar.component';
-import { AddminComponent } from './home/administracion/addmin/addmin.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'inicio', component: InicioComponent },
-  { path: 'redactar', component: RedactarComponent },
-  { path: 'agregar', component: AgregarComponent },
-  { path: 'addmin', component: AddminComponent },
-  { path: '**', redirectTo: 'login' }
+  { 
+    path: '', 
+    redirectTo: 'login', 
+    pathMatch: 'full' 
+  },
+  { 
+    path: 'login', 
+    loadComponent: () => import('./auth/login/login.component') 
+  },
+  { 
+    path: 'inicio', 
+    loadComponent: () => import('./home/inicio/inicio.component')
+  },
+  { 
+    path: 'redactar', 
+    loadComponent: () => import('./home/redactar/redactar.component') 
+  },
+  { 
+    path: 'agregar', 
+    loadComponent: () => import('./home/alumnos/agregar/agregar.component') 
+  },
+  { 
+    path: 'addmin', 
+    loadComponent: () => import('./home/administracion/addmin/addmin.component') 
+  },
+  { 
+    path: '**', 
+    redirectTo: 'login' }
 ];

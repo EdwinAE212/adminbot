@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './agregar.component.css'
 })
 
-export class AgregarComponent {
+export default class AgregarComponent {
   alumno = {
     matricula: '',
     nombre: '',
