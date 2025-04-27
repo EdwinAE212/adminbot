@@ -1,72 +1,113 @@
-<div class="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md">
-  <h2 class="text-3xl font-bold mb-6 text-center">Agregar Alumno</h2>
+<div class="min-h-screen bg-blue-50 text-gray-900 flex flex-col items-center">
+  <!-- Barra superior -->
+  <div class="w-full h-10 bg-blue-800 flex items-center px-6 shadow-md grid justify-items-end">
+    <img src="assets/uas-logo-2.png" alt="Logo UAS" class="h-20 z-20" />
+  </div>
+  <div class="w-full h-10 bg-yellow-400 flex items-center px-6 shadow-md z-10">
+    <h1 class="text-2xl font-bold text-blue-800">Universidad Autónoma de Sinaloa</h1>
+  </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- Alumno -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label class="block font-semibold mb-1">Matrícula</label>
-        <input formControlName="Matricula" type="text" name="Matricula" class="w-full border border-gray-300 p-2 rounded" required />
-      </div>
+  <!-- Contenedor principal -->
+  <div class="w-full max-w-screen-lg mt-10 bg-white shadow-2xl rounded-2xl flex flex-col lg:flex-row overflow-hidden">
+    <!-- Lado del formulario -->
+    <div class="h-auto p-10 flex items-center justify-center w-full">
+      <div class="flex flex-col items-center w-full">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">Agregar Alumno</h2>
 
-      <div>
-        <label class="block font-semibold mb-1">Nombre</label>
-        <input formControlName="nombre" type="text" name="nombre" class="w-full border border-gray-300 p-2 rounded" required />
-      </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-full max-w-xl">
+          <!-- Alumno -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block font-semibold mb-1">Matrícula *</label>
+              <input formControlName="Matricula" type="text" name="Matricula" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['Matricula'].invalid && form.controls['Matricula'].touched, 'animate-shake': form.controls['Matricula'].invalid && form.controls['Matricula'].touched}" required />
+            </div>
 
-      <div>
-        <label class="block font-semibold mb-1">Apellido Paterno</label>
-        <input formControlName="apellido_paterno" type="text" name="apellido_paterno" class="w-full border border-gray-300 p-2 rounded" required />
-      </div>
+            <div>
+              <label class="block font-semibold mb-1">Nombre *</label>
+              <input formControlName="nombre" type="text" name="nombre" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['nombre'].invalid && form.controls['nombre'].touched, 'animate-shake': form.controls['nombre'].invalid && form.controls['nombre'].touched}" required />
+            </div>
 
-      <div>
-        <label class="block font-semibold mb-1">Apellido Materno</label>
-        <input formControlName="apellido_materno" type="text" name="apellido_materno" class="w-full border border-gray-300 p-2 rounded" required />
-      </div>
+            <div>
+              <label class="block font-semibold mb-1">Apellido Paterno *</label>
+              <input formControlName="apellido_paterno" type="text" name="apellido_paterno" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['apellido_paterno'].invalid && form.controls['apellido_paterno'].touched, 'animate-shake': form.controls['apellido_paterno'].invalid && form.controls['apellido_paterno'].touched}" required />
+            </div>
 
-      <div>
-        <label class="block font-semibold mb-1">Email</label>
-        <input formControlName="email" type="email" name="email" class="w-full border border-gray-300 p-2 rounded" />
-      </div>
+            <div>
+              <label class="block font-semibold mb-1">Apellido Materno *</label>
+              <input formControlName="apellido_materno" type="text" name="apellido_materno" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['apellido_materno'].invalid && form.controls['apellido_materno'].touched, 'animate-shake': form.controls['apellido_materno'].invalid && form.controls['apellido_materno'].touched}" required />
+            </div>
 
-      <div>
-        <label class="block font-semibold mb-1">Teléfono</label>
-        <input formControlName="telefono" type="tel" name="telefono" class="w-full border border-gray-300 p-2 rounded" />
+            <div>
+              <label class="block font-semibold mb-1">Email *</label>
+              <input formControlName="email" type="email" name="email" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['email'].invalid && form.controls['email'].touched, 'animate-shake': form.controls['email'].invalid && form.controls['email'].touched}" required="" />
+            </div>
+
+            <div>
+              <label class="block font-semibold mb-1">Teléfono *</label>
+              <input formControlName="telefono" type="tel" name="telefono" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['telefono'].invalid && form.controls['telefono'].touched, 'animate-shake': form.controls['telefono'].invalid && form.controls['telefono'].touched}" required=""/>
+            </div>
+          </div>
+
+          <!-- Tutor -->
+          <h3 class="text-2xl font-bold mt-10 mb-4">Datos del Tutor</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block font-semibold mb-1">Nombre *</label>
+              <input formControlName="nombre_tutor" type="text" name="nombre_tutor" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['nombre_tutor'].invalid && form.controls['nombre_tutor'].touched, 'animate-shake': form.controls['nombre_tutor'].invalid && form.controls['nombre_tutor'].touched}" required />
+            </div>
+
+            <div>
+              <label class="block font-semibold mb-1">Apellido Paterno *</label>
+              <input formControlName="apellido_paterno_tutor" type="text" name="apellido_paterno_tutor" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['apellido_paterno_tutor'].invalid && form.controls['apellido_paterno_tutor'].touched, 'animate-shake': form.controls['apellido_paterno_tutor'].invalid && form.controls['apellido_paterno_tutor'].touched}" required />
+            </div>
+
+            <div>
+              <label class="block font-semibold mb-1">Apellido Materno *</label>
+              <input formControlName="apellido_materno_tutor" type="text" name="apellido_materno_tutor" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['apellido_materno_tutor'].invalid && form.controls['apellido_materno_tutor'].touched, 'animate-shake': form.controls['apellido_materno_tutor'].invalid && form.controls['apellido_materno_tutor'].touched}" required />
+            </div>
+
+            <div>
+              <label class="block font-semibold mb-1">Teléfono *</label>
+              <input formControlName="telefono_tutor" type="tel" name="telefono_tutor" class="w-full border p-2 rounded"
+                [ngClass]="{'border-red-500': form.controls['telefono_tutor'].invalid && form.controls['telefono_tutor'].touched, 'animate-shake': form.controls['telefono_tutor'].invalid && form.controls['telefono_tutor'].touched}" required />
+            </div>
+          </div>
+
+          <!-- Botón -->
+          <div class="flex justify-center mt-10">
+            <button type="submit" [disabled]="form.invalid" class="bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700 transition">
+              Guardar
+            </button>
+          </div>
+        </form>
       </div>
     </div>
 
-    <!-- Tutor -->
-    <h3 class="text-2xl font-bold mt-10 mb-4">Datos del Tutor</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label class="block font-semibold mb-1">Nombre</label>
-        <input formControlName="nombre_tutor" type="text" name="nombre_tutor" class="w-full border border-gray-300 p-2 rounded" required />
-      </div>
-
-      <div>
-        <label class="block font-semibold mb-1">Apellido Paterno</label>
-        <input formControlName="apellido_paterno_tutor" type="text" name="apellido_paterno_tutor" class="w-full border border-gray-300 p-2 rounded" required />
-      </div>
-
-      <div>
-        <label class="block font-semibold mb-1">Apellido Materno</label>
-        <input formControlName="apellido_materno_tutor" type="text" name="apellido_materno_tutor" class="w-full border border-gray-300 p-2 rounded" required />
-      </div>
-
-      <div>
-        <label class="block font-semibold mb-1">Teléfono</label>
-        <input formControlName="telefono_tutor" type="tel" name="telefono_tutor" class="w-full border border-gray-300 p-2 rounded" required />
+    <!-- Lado visual -->
+    <div class="h-auto bg-blue-800 text-white flex items-center justify-center p-10">
+      <div class="text-center grid justify-items-center mb-50">
+        <img src="assets/logo-uas-1.png" class="h-80" />
+        <h3 class="text-2xl font-bold mb-4">Bienvenido</h3>
+        <p class="text-sm leading-relaxed">
+          Esta es la plataforma administrativa de la Universidad Autónoma de Sinaloa.
+        </p>
       </div>
     </div>
+  </div>
 
-    <!-- Botón -->
-    <div class="flex justify-center mt-10">
-      <button 
-        type="submit" 
-        [disabled]="form.invalid" 
-        class="bg-blue-600 text-white px-8 py-3 rounded hover:bg-blue-700 transition">
-        Guardar Alumno y Tutor
-      </button>
-    </div>
-  </form>
+  <p class="text-xl text-red-500 pt-10 pb-10">LAS CASILLAS MARCADAS CON UN * SON OBLIGATORIAS</p>
+
+  <!-- Alerta si el formulario es inválido -->
+  <div *ngIf="form.invalid && form.touched" class="w-100 text-center p-4 mb-6 bg-red-600 text-white rounded-lg">
+    <p><strong>¡Por favor, complete todos los campos obligatorios!</strong></p>
+  </div>
 </div>

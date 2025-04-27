@@ -1,22 +1,49 @@
 <app-header></app-header>
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-    
-    <!-- Botón de Alumnos -->
-    <div class="flex flex-col space-y-6">
-      <button [routerLink]="['/agregar']" class="bg-blue-500 text-white text-2xl font-bold p-10 rounded-2xl shadow-lg hover:bg-blue-600 transition">
-        Agregar Alumno
-      </button>
-    
-      <button [routerLink]="['/gestionar']" class="bg-indigo-500 text-white text-2xl font-bold p-10 rounded-2xl shadow-lg hover:bg-indigo-600 transition">
-        Gestionar Alumno
-      </button>
+
+<div class="min-h-screen bg-blue-50 text-gray-900 flex flex-col items-center ">
+  <!-- Barra superior -->
+  <div class="w-full h-1 bg-blue-800 flex items-center px-6 shadow-md">
+    <img src="assets/uas-logo-2.png" alt="Logo UAS" class="h-16 z-20 mb-15" />
+  </div>
+  <div class="w-full h-12 bg-yellow-400 flex items-center px-6 shadow-md z-10">
+    <h1 class="text-xl font-bold text-blue-800">Universidad Autónoma de Sinaloa</h1>
+  </div>
+
+  <!-- Contenedor principal -->
+  <div class="w-232 max-w-screen-lg mt-10 bg-white shadow-2xl rounded-2xl flex flex-col lg:flex-row overflow-hidden">
+    <!-- Lado del formulario -->
+    <div class="h-180 p-10 flex items-center justify-center">
+      <div class="flex flex-col items-center w-full">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">Administración UAS</h2>
+
+        <!-- Botones -->
+        <div class="flex flex-col space-y-6 md:space-y-8">
+          <button [routerLink]="['/agregar']" class="bg-blue-700 text-white text-xl font-semibold py-6 px-12 rounded-2xl shadow-lg hover:bg-blue-800 transition">
+            Agregar Alumno
+          </button>
+          <button [routerLink]="['/gestionar']" class="bg-blue-600 text-white text-xl font-semibold py-6 px-12 rounded-2xl shadow-lg hover:bg-blue-700 transition">
+            Gestionar Alumno
+          </button>
+        </div>
+
+        <div class="flex justify-center mt-6">
+          <button [routerLink]="['/redactar']" class="bg-yellow-400 text-white text-xl font-semibold py-8 px-16 rounded-2xl shadow-lg hover:bg-yellow-500 transition">
+            Redactar Aviso
+          </button>
+        </div>
+
+      </div>
     </div>
 
-    <!-- Botón de Redactar Aviso -->
-    <button [routerLink]="['/redactar']" class="bg-green-500 text-white text-2xl font-bold p-16 rounded-2xl shadow-lg hover:bg-green-600 transition">
-      Redactar Aviso
-    </button>
-
+    <!-- Lado visual -->
+    <div class="h-180 bg-blue-800 text-white flex items-center justify-center p-10">
+      <div class="text-center grid justify-items-center mb-50">
+        <img src="assets/logo-uas-1.png" class="h-80" />
+        <h3 class="text-2xl font-bold mb-4">Bienvenido</h3>
+        <p class="text-sm leading-relaxed">
+          Esta es la plataforma administrativa de la Universidad Autónoma de Sinaloa.
+        </p>
+      </div>
+    </div>
   </div>
 </div>

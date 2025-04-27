@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-agregar',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './agregar.component.html',
   styleUrls: ['./agregar.component.css']
 })
@@ -42,23 +42,41 @@ export default class AgregarComponent {
     const alumnoData = this.form.value;
     console.log('Datos del alumno y tutor:', alumnoData);
 
-    // Enviar los datos a las APIs correspondientes
-    this.auth.agregarAlumno(alumnoData).subscribe(
-      (response) => {
-        console.log('Alumno agregado correctamente');
-      },
-      (error) => {
-        console.error('Error al agregar alumno', error);
-      }
-    );
+    // Paso 1: Agregar o obtener el tutor
+    const tutorData = {
+      nombre: alumnoData.nombre_tutor,
+      apellido_paterno: alumnoData.apellido_paterno_tutor,
+      apellido_materno: alumnoData.apellido_materno_tutor,
+      telefono: alumnoData.telefono_tutor
+    };
 
-    this.auth.agregarTutor(alumnoData).subscribe(
-      (response) => {
-        console.log('Tutor agregado correctamente');
+    this.auth.agregarTutor(tutorData).subscribe(
+      (tutorResponse) => {
+        console.log('Tutor agregado correctamente', tutorResponse);
+        
+        // Paso 2: Obtener el id_tutor del tutor (si ya existe o es nuevo)
+        const idTutor = tutorResponse.id_tutor;
+        
+        // Paso 3: Agregar el alumno con el id_tutor
+        const alumnoToAdd = {
+          ...alumnoData,  // Los datos del alumno
+          id_tutor: idTutor  // Asigna el id_tutor al alumno
+        };
+
+        this.auth.agregarAlumno(alumnoToAdd).subscribe(
+          (alumnoResponse) => {
+            console.log('Alumno agregado correctamente', alumnoResponse);
+          },
+          (error) => {
+            console.error('Error al agregar alumno', error);
+          }
+        );
       },
       (error) => {
         console.error('Error al agregar tutor', error);
       }
     );
+
+    this.router.navigate(['/inicio'])
   }
 }
