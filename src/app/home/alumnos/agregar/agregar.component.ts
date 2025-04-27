@@ -1,32 +1,64 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../../header/header.component';
-import { RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AlumnoService } from '../../../../api/alumnos';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-agregar',
   standalone: true,
-  imports: [HeaderComponent, RouterModule],
+  imports: [CommonModule,ReactiveFormsModule],
   templateUrl: './agregar.component.html',
-  styleUrl: './agregar.component.css'
+  styleUrls: ['./agregar.component.css']
 })
-
 export default class AgregarComponent {
-  alumno = {
-    matricula: '',
-    nombre: '',
-    apellidoPaterno: '',
-    apellidoMaterno: '',
-    email: '',
-    telefono: '',
-    tutor: {
-      nombre: '',
-      apellidoPaterno: '',
-      apellidoMaterno: '',
-      telefono: '' 
-    }  
+  form!: FormGroup;
+
+  constructor(private fb: FormBuilder, private auth: AlumnoService, private router: Router) {
+    this.form = this.fb.group({
+      // Campos del alumno
+      Matricula: ['', Validators.required],
+      nombre: ['', Validators.required],
+      apellido_paterno: ['', Validators.required],
+      apellido_materno: ['', Validators.required],
+      email: [''],
+      telefono: [''],
+      
+      // Campos del tutor
+      nombre_tutor: ['', Validators.required],
+      apellido_paterno_tutor: ['', Validators.required],
+      apellido_materno_tutor: ['', Validators.required],
+      telefono_tutor: ['', Validators.required]
+    });
+  }
+
+  onSubmit() {
+    if (this.form.invalid) {
+      console.log('Formulario no válido');
+      return; // No enviar datos si el formulario es inválido
     }
 
-    guardarAlumno() {
-      // Aquí puedes integrar una petición HTTP para guardar en la base de datos
-    }
+    const alumnoData = this.form.value;
+    console.log('Datos del alumno y tutor:', alumnoData);
+
+    // Enviar los datos a las APIs correspondientes
+    this.auth.agregarAlumno(alumnoData).subscribe(
+      (response) => {
+        console.log('Alumno agregado correctamente');
+      },
+      (error) => {
+        console.error('Error al agregar alumno', error);
+      }
+    );
+
+    this.auth.agregarTutor(alumnoData).subscribe(
+      (response) => {
+        console.log('Tutor agregado correctamente');
+      },
+      (error) => {
+        console.error('Error al agregar tutor', error);
+      }
+    );
+  }
 }
