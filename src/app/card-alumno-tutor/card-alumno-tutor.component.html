@@ -1,0 +1,47 @@
+<!-- Cards -->
+ <div class="bg-blue-800 text-xl text-yellow-400 border rounded-xl grid gap-2">
+    Alumnos Y Tutores
+    <!-- Contenedor centrado -->
+    <div class="w-full flex justify-center mb-4">
+        <input
+        type="text"
+        [(ngModel)]="filtro"
+        placeholder="Buscar alumno o tutor"
+        class="p-2 border border-gray-300 rounded w-11/12 max-w-md bg-gray-500 text-white"
+        />
+    </div>
+  
+
+    <div class="h-100 overflow-y-auto p-4">
+        <div *ngFor="let alumno of alumnosFiltrados()" 
+                class="w-100 bg-white shadow-md rounded-xl border border-gray-200 p-4 mb-4 cursor-pointer"
+                (click)="abrirModal(alumno)">
+            <p class="text-gray-800 text-base mb-1">
+            <span class="font-semibold text-yellow-400">Nombre del Alumno:</span> {{ alumno.nombre_alumno }}
+            </p>
+            <p class="text-gray-800 text-base">
+            <span class="font-semibold text-blue-800">Nombre del Tutor:</span> {{ alumno.nombre_tutor }}
+            </p>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div *ngIf="modalVisible" class="fixed inset-0 bg-white/20 backdrop-blur-sm flex items-center justify-center z-50" (click)="cerrarModal()">
+
+  <div class="bg-white p-6 rounded-xl w-[90%] max-w-md shadow-xl" (click)="$event.stopPropagation()">
+    <h2 class="text-xl font-bold text-blue-800 mb-4">Detalles del Alumno</h2>
+    <p><strong>Nombre:</strong> {{ alumnoSeleccionado.nombre_alumno }}</p>
+    <p><strong>Email:</strong> {{ alumnoSeleccionado.email }}</p>
+    <p><strong>Teléfono:</strong> {{ alumnoSeleccionado.telefono }}</p>
+    <p><strong>Tutor:</strong> {{ alumnoSeleccionado.nombre_tutor }}</p>
+    
+    <div class="mt-4 flex justify-end gap-3">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+        Editar
+      </button>
+      <button (click)="cerrarModal()" class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-500 transition">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>

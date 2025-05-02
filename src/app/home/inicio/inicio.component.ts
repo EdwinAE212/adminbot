@@ -3,11 +3,13 @@ import { HeaderComponent } from '../header/header.component';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../api/auth.service';
 import { Router } from '@angular/router';
+import AgregarComponent from "../alumnos/agregar/agregar.component";
+import { CardAlumnoTutorComponent } from "../../card-alumno-tutor/card-alumno-tutor.component";
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [HeaderComponent, RouterModule],
+  imports: [HeaderComponent, RouterModule, AgregarComponent, CardAlumnoTutorComponent],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })

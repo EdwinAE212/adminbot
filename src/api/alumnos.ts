@@ -18,4 +18,8 @@ export class AlumnoService {
   agregarTutor(tutor: any): Observable<any> {
     return this.http.post('http://localhost:8000/tutor', tutor);
   }
+
+  obtenerAlumnos(getAlumno: any): Observable<any> {
+    return this.http.get('http://localhost:8000/alumnos-tutores', getAlumno);
+  }
 }
