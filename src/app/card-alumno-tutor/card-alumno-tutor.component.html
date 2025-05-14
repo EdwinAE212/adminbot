@@ -12,8 +12,9 @@
     </div>
   
 
-    <div class="h-100 overflow-y-auto p-4">
-        <div *ngFor="let alumno of alumnosFiltrados()" 
+    <div class="h-200 overflow-y-auto p-4">
+        <div *ngFor="let alumno of alumnosFiltrados()" class="flex justify-center">
+          <div
                 class="w-100 bg-white shadow-md rounded-xl border border-gray-200 p-4 mb-4 cursor-pointer"
                 (click)="abrirModal(alumno)">
             <p class="text-gray-800 text-base mb-1">
@@ -28,18 +29,18 @@
 <!-- Modal -->
 <div *ngIf="modalVisible" class="fixed inset-0 bg-white/20 backdrop-blur-sm flex items-center justify-center z-50" (click)="cerrarModal()">
 
-  <div class="bg-white p-6 rounded-xl w-[90%] max-w-md shadow-xl" (click)="$event.stopPropagation()">
+  <div class="bg-white p-6 rounded-xl w-90% max-w-md shadow-xl" (click)="$event.stopPropagation()">
     <h2 class="text-xl font-bold text-blue-800 mb-4">Detalles del Alumno</h2>
-    <p><strong>Nombre:</strong> {{ alumnoSeleccionado.nombre_alumno }}</p>
-    <p><strong>Email:</strong> {{ alumnoSeleccionado.email }}</p>
-    <p><strong>Teléfono:</strong> {{ alumnoSeleccionado.telefono }}</p>
-    <p><strong>Tutor:</strong> {{ alumnoSeleccionado.nombre_tutor }}</p>
+    <p class="text-black"><strong class="text-yellow-400">Nombre:</strong> {{ alumnoSeleccionado.nombre_alumno }}</p>
+    <p class="text-black"><strong class="text-yellow-400">Email:</strong> {{ alumnoSeleccionado.email }}</p>
+    <p class="text-black"><strong class="text-yellow-400">Teléfono:</strong> {{ alumnoSeleccionado.telefono }}</p>
+    <p class="text-black"><strong class="text-yellow-400">Tutor:</strong> {{ alumnoSeleccionado.nombre_tutor }}</p>
     
     <div class="mt-4 flex justify-end gap-3">
       <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
         Editar
       </button>
-      <button (click)="cerrarModal()" class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-500 transition">
+      <button (click)="cerrarModal()" class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-500 transition text-black">
         Cerrar
       </button>
     </div>
