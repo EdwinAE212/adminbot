@@ -12,7 +12,7 @@ export class AuthService {
   token = signal<string | null>(null);
 
   login(nombre: string, password: string) {
-    return this.http.post<{ access_token: string }>('http://localhost:8000/login', {
+    return this.http.post<{ access_token: string }>('https://bot-educacional-production.up.railway.app/login', {
       nombre,
       password
     });

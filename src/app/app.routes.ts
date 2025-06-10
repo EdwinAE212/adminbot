@@ -26,6 +26,10 @@ export const routes: Routes = [
     path: 'addmin', 
     loadComponent: () => import('./home/administracion/addmin/addmin.component') 
   },
+  {
+    path: "reportes",
+    loadComponent: () => import('./reporte/reporte.component')
+  },
   { 
     path: '**', 
     redirectTo: 'login' }

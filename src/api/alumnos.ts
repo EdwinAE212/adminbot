@@ -12,14 +12,14 @@ export class AlumnoService {
 
 
   agregarAlumno(alumno: any): Observable<any> {
-    return this.http.post('http://localhost:8000/alumnos', alumno);
+    return this.http.post('https://bot-educacional-production.up.railway.app/alumnos', alumno);
   }
 
   agregarTutor(tutor: any): Observable<any> {
-    return this.http.post('http://localhost:8000/tutor', tutor);
+    return this.http.post('https://bot-educacional-production.up.railway.app/tutor', tutor);
   }
 
   obtenerAlumnos(getAlumno: any): Observable<any> {
-    return this.http.get('http://localhost:8000/alumnos-tutores', getAlumno);
+    return this.http.get('https://bot-educacional-production.up.railway.app/alumnos-tutores', getAlumno);
   }
 }
