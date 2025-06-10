@@ -26,6 +26,10 @@ export const routes: Routes = [
     path: 'addmin', 
     loadComponent: () => import('./home/administracion/addmin/addmin.component') 
   },
+  {	
+    path: 'perfil',
+    loadComponent: () => import('./perfilad/perfilad.component').then(m => m.PerfilComponent)
+  },
   { 
     path: '**', 
     redirectTo: 'login' }

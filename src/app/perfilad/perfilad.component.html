@@ -1,0 +1,40 @@
+<app-header></app-header>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+  <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-lg">
+    <h2 class="text-2xl font-bold mb-6 text-center">Perfil</h2>
+
+    <!-- Nombre del usuario -->
+    <div class="mb-6 text-center">
+      <p class="text-xl text-gray-700">{{ usuario }}</p>
+    </div>
+
+    <!-- Botón para mostrar/ocultar cambio de contraseña -->
+    <div class="mb-4">
+      <button (click)="mostrarCambio = !mostrarCambio"
+              class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+        {{ mostrarCambio ? 'Cancelar' : 'Cambiar Contraseña' }}
+      </button>
+    </div>
+
+    <!-- Formulario para cambiar contraseña -->
+    <div *ngIf="mostrarCambio">
+      <div class="mb-4">
+        <label class="block font-semibold">Nueva Contraseña</label>
+        <input type="password"  class="w-full p-2 border rounded" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block font-semibold">Confirmar Contraseña</label>
+        <input type="password"  class="w-full p-2 border rounded" />
+      </div>
+
+      <p *ngIf="error" class="text-red-500 mb-4 text-center">{{ error }}</p>
+
+      <button (click)="cambiarContrasena()"
+              class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+        Guardar Contraseña
+      </button>
+    </div>
+  </div>
+</div>

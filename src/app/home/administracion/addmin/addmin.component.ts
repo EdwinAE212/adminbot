@@ -11,9 +11,7 @@ import { RouterModule } from '@angular/router';
 })
 export default class AddminComponent {
   admin = {
-    nombre: '',
-    apellidoPaterno: '',
-    apellidoMaterno: '',
+    usuario: '',
     email: '',
     telefono: '',
     contraseña: ''

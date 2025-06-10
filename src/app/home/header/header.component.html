@@ -1,13 +1,13 @@
 <nav class="bg-blue-800 text-white shadow-md">
   <div class="container mx-auto flex justify-between items-center py-4 px-6">
     <!-- Nombre del sistema -->
-    <div class="text-xl font-bold text-yellow-400 flex items-center pl-10">
+    <button [routerLink]="['/inicio']" class="text-xl font-bold text-yellow-400 flex items-center pl-10">
       AdminBot
-    </div>
+    </button>
 
     <!-- Menú de opciones -->
     <div class="flex space-x-6 items-center">
-      <a class="hover:text-gray-300 transition">Perfil</a>
+      <button [routerLink]="['/perfil']" class="hover:text-gray-300 transition">Perfil</button>
       <button [routerLink]="['/addmin']" class="hover:text-gray-300 transition">Agregar Administrador</button>
       <button [routerLink]="['./login']" (click)="logout()" class="bg-yellow-400 px-4 py-2 rounded-lg text-blue-800 hover:bg-yellow-500 transition">
         Cerrar Sesión
