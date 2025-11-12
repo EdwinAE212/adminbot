@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../../header/header.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-addmin',
   standalone: true,
-  imports: [HeaderComponent, RouterModule],
+  imports: [RouterModule],
   templateUrl: './addmin.component.html',
   styleUrl: './addmin.component.css'
 })
-export default class AddminComponent {
+export class AddminComponent {
   admin = {
     usuario: '',
     email: '',

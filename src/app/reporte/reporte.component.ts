@@ -3,7 +3,7 @@
   import { FormsModule } from '@angular/forms';
   
   @Component({
-    selector: 'reporte',
+    selector: 'app-reporte',
     standalone: true,
     imports: [CommonModule, FormsModule],
     templateUrl: './reporte.component.html',

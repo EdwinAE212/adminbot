@@ -1,0 +1,21 @@
+@if (isOpen) {
+<div class="fixed inset-0 z-50 flex justify-end items-end">
+
+  <!-- Fondo -->
+  <div class="absolute inset-0 backdrop-blur-sm bg-white/10"
+     (click)="close()"></div>
+
+  <!-- Panel lateral (NO se toca nada aquí) -->
+  <div class="bg-white w-200 max-h-screen p-6 overflow-y-auto shadow-xl relative self-end"
+     [ngClass]="closing ? 'animate-slideOut' : 'animate-slideIn'">
+
+  <button class="absolute top-4 right-4 p-2 hover:bg-gray-200 rounded-full transition cursor-pointer"
+      (click)="close()">
+    <i class="fa-solid fa-xmark text-2xl text-gray-600 hover:text-black"></i>
+  </button>
+
+  <ng-content></ng-content>
+
+  </div>
+</div>
+}

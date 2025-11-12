@@ -1,0 +1,55 @@
+<nav class="bg-blue-800 text-white shadow-md">
+  <div class="container mx-auto flex justify-between items-center px-6">
+
+    <!-- Logo + Nombre del sistema -->
+    <div class="flex items-center space-x-3">
+      <img src="assets/uas-logo-2.png" alt="Logo UAS" class="h-20 w-auto" />
+      <button [routerLink]="['/inicio']" class="text-xl font-bold text-yellow-400">
+        AdminBot
+      </button>
+    </div>
+
+    <!-- Menú de opciones -->
+    <div class="flex space-x-6 items-center">
+      
+      <!-- Abrir modal Aviso -->
+      <button 
+        (click)="modalAvisoOpen = true"
+        class="bg-yellow-400 px-4 py-2 rounded-lg text-blue-800 font-semibold hover:bg-yellow-500 transition cursor-pointer">
+        Redactar Aviso
+      </button>
+
+      <!-- Abrir modal Reporte -->
+      <button 
+        (click)="modalReporteOpen = true"
+        class="bg-yellow-400 px-4 py-2 rounded-lg text-blue-800 font-semibold hover:bg-yellow-500 transition cursor-pointer">
+        Redactar Reporte
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Barra amarilla -->
+  <div class="w-full h-12 bg-yellow-400 flex items-center px-6 shadow-md">
+    <h1 class="text-xl font-bold text-blue-800">
+      Universidad Autónoma de Sinaloa
+    </h1>
+  </div>
+</nav>
+
+
+<!--  Modal Aviso -->
+<app-modal
+  [isOpen]="modalAvisoOpen"
+  (closeModal)="modalAvisoOpen = false"
+>
+  <app-redactar-aviso></app-redactar-aviso>
+</app-modal>
+
+<!--  Modal Reporte -->
+<app-modal
+  [isOpen]="modalReporteOpen"
+  (closeModal)="modalReporteOpen = false"
+>
+  <app-reporte></app-reporte>
+</app-modal>

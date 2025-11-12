@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../api/auth.service';
 import { CommonModule } from '@angular/common';
-import { provideHttpClient } from '@angular/common/http'; // <-- Añade esta importación
+import { provideHttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',

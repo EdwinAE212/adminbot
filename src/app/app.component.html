@@ -1,1 +1,25 @@
-<router-outlet></router-outlet>
+<!-- Layout completo solo si showLayout() es true -->
+<div *ngIf="showLayout()">
+
+  <div class="flex">
+
+    <!-- Sidebar -->
+    <app-sidebar #sidebar></app-sidebar>
+
+    <!-- Contenido principal + barra amarilla -->
+    <div
+      class="flex-1 transition-all duration-300"
+      [style.marginLeft.px]="sidebar.isOpen ? 224 : 64">
+
+      <app-header></app-header>
+
+      <!-- Contenido de cada ruta -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<!-- Para rutas sin layout (login, registro, etc.) -->
+<div *ngIf="!showLayout()">
+  <router-outlet></router-outlet>
+</div>

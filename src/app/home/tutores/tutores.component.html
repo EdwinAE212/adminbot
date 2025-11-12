@@ -1,0 +1,64 @@
+<div class="p-6 bg-gray-50 min-h-screen">
+  <div class="flex justify-between items-center mb-8">
+    
+    <h1 class="text-3xl font-bold text-blue-800">
+      Registros de Tutores
+    </h1>
+  </div>
+
+  <div class="bg-white p-6 rounded-xl shadow-xl overflow-x-auto"> 
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-blue-800">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider rounded-tl-xl">
+            Nombre
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+            Apellido Paterno
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+            Apellido Materno
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+            Matrícula del Alumno
+          </th>
+          <th class="px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider rounded-tr-xl">
+            Acciones
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+        <ng-container *ngIf="tutores && tutores.length > 0; else noRecordsRowTutores">
+          <tr *ngFor="let tutor of tutores; let i = index" [ngClass]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'">
+            
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ tutor.nombre_tutor }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ tutor.apellido_paterno_tutor }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ tutor.apellido_materno_tutor }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">{{ tutor.matricula_alumno }}</td>
+            
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+              <button class="text-blue-600 hover:text-blue-900 mx-2">Editar</button>
+              <button class="text-red-600 hover:text-red-900 mx-2">Eliminar</button>
+            </td>
+          </tr>
+        </ng-container>
+
+        <ng-template #noRecordsRowTutores>
+          <tr>
+            <td colspan="7" class="text-center py-10 bg-white">
+              <p class="text-xl text-gray-500 font-semibold">
+                No existen registros de tutores.
+              </p>
+              <p class="text-gray-400 mt-2">
+                Haz clic en "Agregar Tutor" para empezar.
+              </p>
+            </td>
+          </tr>
+        </ng-template>
+
+      </tbody>
+    </table>
+
+  </div>
+</div>

@@ -1,40 +1,59 @@
-<app-header></app-header>
-
-<div class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-  <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-lg">
-    <h2 class="text-2xl font-bold mb-6 text-center">Perfil</h2>
-
-    <!-- Nombre del usuario -->
-    <div class="mb-6 text-center">
-      <p class="text-xl text-gray-700">{{ usuario }}</p>
-    </div>
-
-    <!-- Botón para mostrar/ocultar cambio de contraseña -->
-    <div class="mb-4">
-      <button (click)="mostrarCambio = !mostrarCambio"
-              class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-        {{ mostrarCambio ? 'Cancelar' : 'Cambiar Contraseña' }}
-      </button>
-    </div>
-
-    <!-- Formulario para cambiar contraseña -->
-    <div *ngIf="mostrarCambio">
-      <div class="mb-4">
-        <label class="block font-semibold">Nueva Contraseña</label>
-        <input type="password"  class="w-full p-2 border rounded" />
+<div class="flex items-start justify-center bg-gray-100 p-25 pt-10">
+  
+  <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-lg">
+    
+    <h2 class="text-3xl font-bold mb-6 text-center text-blue-800">Editar Perfil</h2>
+    
+    <form (ngSubmit)="guardarTodo()">
+      
+      <div class="mb-6">
+        <label class="block text-blue-800 font-semibold mb-2">Usuario</label>
+        <input type="text" name="usuario" [(ngModel)]="admin.usuario" required 
+               class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
       </div>
 
-      <div class="mb-4">
-        <label class="block font-semibold">Confirmar Contraseña</label>
-        <input type="password"  class="w-full p-2 border rounded" />
+      <div class="mb-6">
+        <label class="block text-blue-800 font-semibold mb-2">Email</label>
+        <input type="email" name="email" [(ngModel)]="admin.email" required 
+               class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
       </div>
 
-      <p *ngIf="error" class="text-red-500 mb-4 text-center">{{ error }}</p>
+      <div class="mb-6">
+        <label class="block text-blue-800 font-semibold mb-2">Teléfono</label>
+        <input type="tel" name="telefono" [(ngModel)]="admin.telefono" required 
+               class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
+      </div>
+      
+      <div class="mb-4">
+        <button type="button" (click)="mostrarCambio = !mostrarCambio"
+                class="w-full bg-blue-600 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400">
+          {{ mostrarCambio ? 'Cancelar Cambio de Contraseña' : 'Cambiar Contraseña' }}
+        </button>
+      </div>
 
-      <button (click)="cambiarContrasena()"
-              class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
-        Guardar Contraseña
-      </button>
-    </div>
+      <div *ngIf="mostrarCambio" class="border-t border-gray-200 pt-6 mt-6">
+        
+        <div class="mb-6">
+          <label class="block text-blue-800 font-semibold mb-2">Nueva Contraseña</label>
+          <input type="password" name="nuevaPass" [(ngModel)]="passwords.nueva"
+                 class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-blue-800 font-semibold mb-2">Confirmar Contraseña</label>
+          <input type="password" name="confirmarPass" [(ngModel)]="passwords.confirmar"
+                 class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
+        </div>
+
+        <p *ngIf="error" class="text-red-500 mb-4 text-center">{{ error }}</p>
+      </div>
+
+      <div class="flex justify-center mt-6">
+        <button type="submit" class="bg-yellow-400 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-yellow-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer">
+          Guardar Cambios
+        </button>
+      </div>
+      
+    </form>
   </div>
 </div>

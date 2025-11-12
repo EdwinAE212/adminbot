@@ -12,25 +12,26 @@ export const routes: Routes = [
   },
   { 
     path: 'inicio', 
-    loadComponent: () => import('./home/inicio/inicio.component')
-  },
-  { 
-    path: 'redactar', 
-    loadComponent: () => import('./home/redactar/redactar.component') 
+    loadComponent: () => import('./home/inicio/inicio.component').then(m => m.InicioComponent) 
   },
   { 
     path: 'agregar', 
-    loadComponent: () => import('./home/alumnos/agregar/agregar.component') 
+    loadComponent: () => import('./home/alumnos/agregar/agregar.component').then(m => m.AgregarComponent) 
+  },
+  { 
+    path: 'tutores', 
+    loadComponent: () => import('./home/tutores/tutores.component').then(m => m.TutoresComponent) 
   },
   { 
     path: 'addmin', 
-    loadComponent: () => import('./home/administracion/addmin/addmin.component') 
+    loadComponent: () => import('./home/administracion/addmin/addmin.component').then(m => m.AddminComponent) 
   },
-  {	
+  { 
     path: 'perfil',
     loadComponent: () => import('./perfilad/perfilad.component').then(m => m.PerfilComponent)
   },
   { 
     path: '**', 
-    redirectTo: 'login' }
+    redirectTo: 'login' 
+  }
 ];

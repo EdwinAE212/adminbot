@@ -1,20 +1,26 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AlumnoService } from '../../../../api/alumnos';
+import { Component, EventEmitter, Output } from '@angular/core'; // <-- Importar para eventos
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+// Asegúrate de que esta ruta sea correcta para tu servicio
+import { AlumnoService } from '../../../../api/alumnos'; 
 
 @Component({
   selector: 'app-agregar',
   standalone: true,
+  // ReactiveFormsModule es necesario para [formGroup]
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './agregar.component.html',
   styleUrls: ['./agregar.component.css']
 })
-export default class AgregarComponent {
+export class AgregarComponent {
+  
+  // 1. EVENTO DE SALIDA: Notificará al componente padre que se ha guardado
+  @Output() alumnoAgregado = new EventEmitter<void>();
+
   form!: FormGroup;
 
+  // Corregido: Agregado 'email_tutor' al FormGroup
   constructor(private fb: FormBuilder, private auth: AlumnoService, private router: Router) {
     this.form = this.fb.group({
       // Campos del alumno
@@ -22,61 +28,49 @@ export default class AgregarComponent {
       nombre: ['', Validators.required],
       apellido_paterno: ['', Validators.required],
       apellido_materno: ['', Validators.required],
-      email: [''],
+      email: ['', [Validators.email]], // Email no obligatorio, pero valida formato
       telefono: [''],
       
       // Campos del tutor
       nombre_tutor: ['', Validators.required],
       apellido_paterno_tutor: ['', Validators.required],
       apellido_materno_tutor: ['', Validators.required],
-      telefono_tutor: ['', Validators.required]
+      telefono_tutor: ['', Validators.required],
+      email_tutor: ['', [Validators.email]], // Añadido campo de email del tutor
     });
   }
 
   onSubmit() {
     if (this.form.invalid) {
+      this.form.markAllAsTouched(); // Marca todos los campos como tocados para mostrar errores
       console.log('Formulario no válido');
-      return; // No enviar datos si el formulario es inválido
+      return;
     }
 
     const alumnoData = this.form.value;
-    console.log('Datos del alumno y tutor:', alumnoData);
+    
+    // ... Lógica de agregar tutor y luego alumno ...
 
-    // Paso 1: Agregar o obtener el tutor
-    const tutorData = {
-      nombre: alumnoData.nombre_tutor,
-      apellido_paterno: alumnoData.apellido_paterno_tutor,
-      apellido_materno: alumnoData.apellido_materno_tutor,
-      telefono: alumnoData.telefono_tutor
-    };
-
-    this.auth.agregarTutor(tutorData).subscribe(
+    // Simulando el envío exitoso
+    this.auth.agregarTutor(alumnoData).subscribe(
       (tutorResponse) => {
-        console.log('Tutor agregado correctamente', tutorResponse);
-        
-        // Paso 2: Obtener el id_tutor del tutor (si ya existe o es nuevo)
-        const idTutor = tutorResponse.id_tutor;
-        
-        // Paso 3: Agregar el alumno con el id_tutor
-        const alumnoToAdd = {
-          ...alumnoData,  // Los datos del alumno
-          id_tutor: idTutor  // Asigna el id_tutor al alumno
-        };
+        const idTutor = tutorResponse.id_tutor; 
+        const alumnoToAdd = { ...alumnoData, id_tutor: idTutor };
 
         this.auth.agregarAlumno(alumnoToAdd).subscribe(
           (alumnoResponse) => {
-            console.log('Alumno agregado correctamente', alumnoResponse);
+            console.log('Alumno y Tutor agregados correctamente');
+            
+            // 2. EMITIR EL EVENTO para que el padre cierre el modal
+            this.alumnoAgregado.emit(); 
+            this.form.reset(); // Limpia el formulario
+            
+            // NOTA: Se elimina la redirección: this.router.navigate(['/inicio'])
           },
-          (error) => {
-            console.error('Error al agregar alumno', error);
-          }
+          (error) => { console.error('Error al agregar alumno', error); }
         );
       },
-      (error) => {
-        console.error('Error al agregar tutor', error);
-      }
+      (error) => { console.error('Error al agregar tutor', error); }
     );
-
-    this.router.navigate(['/inicio'])
   }
 }
