@@ -9,7 +9,7 @@
     templateUrl: './reporte.component.html',
     styleUrl: './reporte.component.css'
   })
-  export default class ReporteComponent {
+  export class ReporteComponent {
     imagePreview: string | ArrayBuffer | null = null;
     selectedImage: File | null = null;
   
