@@ -1,42 +1,38 @@
 <div class="min-h-screen bg-blue-50 text-gray-900 flex flex-col items-center">
-  <!-- Barra superior -->
-  <div class="w-full h-10 bg-blue-800 flex items-center px-6 shadow-md grid justify-items-end">
+  <div class="w-full h-10 bg-blue-800 flex items-center px-5 pt-10 shadow-md justify-end">
     <img src="assets/uas-logo-2.png" alt="Logo UAS" class="h-20 z-20" />
   </div>
   <div class="w-full h-10 bg-yellow-400 flex items-center px-6 shadow-md z-10">
     <h1 class="text-2xl font-bold text-blue-800">Universidad Autónoma de Sinaloa</h1>
   </div>
 
-  <!-- Contenedor principal -->
   <div class="w-full max-w-screen-lg mt-10 bg-white shadow-2xl rounded-2xl flex flex-col lg:flex-row overflow-hidden">
-    <!-- Lado del formulario -->
-    <div class="h-180 p-10 flex items-center justify-center">
+    <div class="lg:w-1/2 p-10 flex items-center justify-center">
       <div class="flex flex-col items-center w-full">
-        <h2 class="text-3xl font-bold text-blue-800 mb-6">Administración UAS</h2>
+        <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Administración UAS</h2>
 
         <form [formGroup]="loginForm" (ngSubmit)="submit()" class="w-full max-w-sm">
-          <input formControlName="nombre"
-            class="w-full px-6 py-3 mb-4 rounded-md font-medium bg-blue-50 border border-blue-200 placeholder-blue-400 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-white"
+          <input formControlName="usuario"
+            class="w-full px-6 py-3 mb-4 rounded-md font-medium bg-blue-50 border border-blue-200 placeholder-blue-400 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-white transition-all"
             type="text" placeholder="Nombre de usuario" />
 
           <input formControlName="password"
-            class="w-full px-6 py-3 mb-4 rounded-md font-medium bg-blue-50 border border-blue-200 placeholder-blue-400 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-white"
+            class="w-full px-6 py-3 mb-4 rounded-md font-medium bg-blue-50 border border-blue-200 placeholder-blue-400 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:bg-white transition-all"
             type="password" placeholder="Contraseña" />
 
-          <button type="submit"
-            class="w-full py-3 mt-2 rounded-md font-semibold text-white bg-yellow-400 hover:bg-yellow-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <button type="submit" [disabled]="loginForm.invalid"
+            class="w-full py-3 mt-2 rounded-md font-semibold text-white bg-yellow-400 hover:bg-yellow-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-300 disabled:cursor-not-allowed">
             Iniciar Sesión
           </button>
         </form>
       </div>
     </div>
 
-    <!-- Lado visual -->
-    <div class="h-180 bg-blue-800 text-white flex items-center justify-center p-10">
-      <div class="text-center grid justify-items-center mb-50">
-        <img src="assets/logo-uas-1.png" class="h-80" />
+    <div class="lg:w-1/2 bg-blue-800 text-white flex items-center justify-center p-10">
+      <div class="text-center flex flex-col items-center">
+        <img src="assets/logo-uas-1.png" class="h-64 mb-6" alt="UAS Large Logo" />
         <h3 class="text-2xl font-bold mb-4">Bienvenido</h3>
-        <p class="text-sm leading-relaxed">
+        <p class="text-sm leading-relaxed max-w-xs">
           Esta es la plataforma administrativa de la Universidad Autónoma de Sinaloa.
         </p>
       </div>

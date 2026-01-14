@@ -1,0 +1,78 @@
+<div class="p-2">
+  <div class="text-center mb-8">
+    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+      <i class="fas fa-user-tie text-blue-600 text-2xl"></i>
+    </div>
+    <h2 class="text-3xl font-extrabold text-blue-800">Asignar Jefe de Grupo</h2>
+    <p class="text-gray-500 text-sm">Selecciona un alumno para vincularlo como representante de su grupo.</p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+    
+    <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 shadow-sm">
+      <label class="block text-blue-800 font-bold mb-3 flex items-center">
+        <i class="fas fa-search mr-2"></i> Matrícula del Alumno *
+      </label>
+      <input formControlName="matricula" 
+             list="listaMatriculas" 
+             (input)="onMatriculaChange($event)"
+             placeholder="Escribe la matrícula para buscar..."
+             class="w-full border border-blue-300 p-4 rounded-xl focus:ring-4 focus:ring-blue-400/20 outline-none shadow-sm transition-all text-lg font-medium">
+      
+      <datalist id="listaMatriculas">
+        <option *ngFor="let alumno of alumnosDisponibles" [value]="alumno.Matricula">
+          {{ alumno.nombre }} {{ alumno.apellido_paterno }} - {{ alumno.grupo }}
+        </option>
+      </datalist>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Carrera</label>
+        <div class="flex items-center text-gray-700">
+          <i class="fas fa-graduation-cap mr-3 text-blue-500"></i>
+          <input formControlName="carreraAlumno" class="bg-transparent border-none p-0 w-full font-semibold focus:ring-0 cursor-not-allowed text-sm">
+        </div>
+      </div>
+
+      <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Grupo Detectado</label>
+        <div class="flex items-center text-gray-700">
+          <i class="fas fa-users mr-3 text-blue-500"></i>
+          <input formControlName="grupo" class="bg-transparent border-none p-0 w-full font-bold focus:ring-0 cursor-not-allowed text-blue-800">
+        </div>
+      </div>
+
+      <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 md:col-span-2">
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Nombre Completo</label>
+        <div class="flex items-center text-gray-700">
+          <i class="fas fa-user mr-3 text-blue-500"></i>
+          <input formControlName="nombreAlumno" class="bg-transparent border-none p-0 w-full font-semibold focus:ring-0 cursor-not-allowed">
+        </div>
+      </div>
+
+      <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 md:col-span-2">
+        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Teléfono de Contacto</label>
+        <div class="flex items-center text-gray-700">
+          <i class="fas fa-phone mr-3 text-blue-500"></i>
+          <input formControlName="telefonoAlumno" class="bg-transparent border-none p-0 w-full font-semibold focus:ring-0 cursor-not-allowed">
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-4 border-t border-gray-100 flex flex-col items-center gap-4">
+      <div *ngIf="form.get('grupo')?.value" class="text-center">
+        <p class="text-sm text-blue-600 bg-blue-50 px-4 py-1 rounded-full inline-block">
+          Confirmando para el grupo <strong>{{ form.get('grupo')?.value }}</strong>
+        </p>
+      </div>
+
+      <button type="submit" [disabled]="form.invalid"
+        class="w-full md:w-auto bg-blue-600 text-white px-12 py-4 rounded-2xl shadow-xl font-bold hover:bg-blue-700 transition-all transform hover:scale-105 active:scale-95 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2">
+        <i class="fas fa-save text-xl"></i>
+        Finalizar Asignación
+      </button>
+    </div>
+  </form>
+</div>

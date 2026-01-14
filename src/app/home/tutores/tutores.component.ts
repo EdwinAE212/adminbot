@@ -1,23 +1,77 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AlumnoService } from '../../services/alumno.service';
+import { AgregarComponent } from '../alumnos/agregar/agregar.component';
 
 @Component({
   selector: 'app-tutores',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule, FormsModule, AgregarComponent],
   templateUrl: './tutores.component.html',
   styleUrl: './tutores.component.css'
 })
-export class TutoresComponent implements OnInit { 
-  tutores: any[] = []; 
-  
-  // tutores: any[] = [
-  //    { nombre_tutor: 'José', apellido_paterno_tutor: 'Hernández', apellido_materno_tutor: 'Sánchez', telefono_tutor: '5511223344', matricula_alumno: '1001', email_tutor: 'jose.h@mail.com' },
-  //    { nombre_tutor: 'María', apellido_paterno_tutor: 'Pérez', apellido_materno_tutor: 'Gómez', telefono_tutor: '5599887766', matricula_alumno: '1005', email_tutor: 'maria.p@mail.com' },
-  // ];
+export class TutoresComponent implements OnInit {
+  tutores: any[] = [];
+  searchText: string = '';
+  currentPage: number = 1;
+  pageSize: number = 10;
+  isEditModalOpen = false;
+  openingEdit = false;
+  closingEdit = false;
+  tutorSeleccionado: any = null;
+
+  constructor(private alumnoService: AlumnoService) {}
 
   ngOnInit(): void {
-    // Aquí es donde harías la llamada a tu servicio para cargar los datos de los tutores.
+    this.cargarTutores();
   }
 
+  cargarTutores() {
+    this.alumnoService.getAlumnos().subscribe({
+      next: (data) => {
+        this.tutores = data;
+      },
+      error: (err) => console.error('Error al cargar tutores', err)
+    });
+  }
+
+  get tutoresFiltrados() {
+    const filtrados = this.tutores.filter(t => 
+      t.nombre_tutor.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      t.Matricula.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return filtrados.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  get totalPaginas() {
+    const filtrados = this.tutores.filter(t => 
+      t.nombre_tutor.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      t.Matricula.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+    return Math.ceil(filtrados.length / this.pageSize);
+  }
+
+  onSearchChange() {
+    this.currentPage = 1;
+  }
+
+  // Funciones del Modal
+  openEditModal(tutor: any): void {
+    this.tutorSeleccionado = tutor;
+    this.closingEdit = false;
+    this.isEditModalOpen = true;
+    setTimeout(() => { this.openingEdit = true; }, 10);
+  }
+
+  closeEditModal(): void {
+    this.openingEdit = false;
+    this.closingEdit = true;
+    setTimeout(() => {
+      this.isEditModalOpen = false;
+      this.tutorSeleccionado = null;
+      this.cargarTutores();
+    }, 250);
+  }
 }

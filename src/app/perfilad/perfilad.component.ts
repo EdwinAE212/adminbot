@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-perfil',
@@ -11,92 +12,88 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './perfilad.component.html',
   styleUrl: './perfilad.component.css'
 })
-
 export class PerfilComponent implements OnInit {
+  private authService = inject(AuthService);
+  private http = inject(HttpClient);
+  private router = inject(Router);
 
   mostrarCambio = false;
   error = '';
+  adminId: string | null = null;
 
-  // --- Objeto para los datos del admin ---
-  // El HTML ahora se vincula a admin.usuario, admin.email, etc.
   admin = {
     usuario: '',
     email: '',
     telefono: ''
   };
 
-  // --- Objeto para las contraseñas ---
-  // El HTML ahora se vincula a passwords.nueva y passwords.confirmar
   passwords = {
     nueva: '',
     confirmar: ''
   };
 
-  // Inyectamos los servicios que probablemente necesitarás
-  constructor(
-    private authService: AuthService, 
-    private router: Router
-  ) {}
-
   ngOnInit() {
-    this.cargarDatosUsuario();
+    this.adminId = this.authService.getAdminId();
+    if (this.adminId) {
+      this.cargarDatosUsuario();
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   cargarDatosUsuario() {
-    // Aquí deberías llamar a tu servicio para obtener los datos
-    // del administrador y rellenar el objeto 'admin'.
-    
-    // Ejemplo (reemplaza esto con tu lógica real):
-    // this.authService.getMiPerfil().subscribe(data => {
-    //   this.admin.usuario = data.usuario;
-    //   this.admin.email = data.email;
-    //   this.admin.telefono = data.telefono;
-    // });
-
-    // --- Datos de placeholder (BORRA ESTO EN PRODUCCIÓN) ---
-    this.admin = {
-      usuario: 'NombreAdminActual',
-      email: 'admin@correo.com',
-      telefono: '6621234567'
-    };
+    this.authService.getProfile(this.adminId!).subscribe({
+      next: (data) => {
+        this.admin.usuario = data.usuario;
+        this.admin.email = data.email;
+        this.admin.telefono = data.telefono;
+      },
+      error: (err) => {
+        console.error('Error al cargar datos:', err);
+        this.error = 'No se pudo cargar la información del perfil.';
+      }
+    });
   }
 
   guardarTodo() {
     this.error = '';
-    console.log('Guardando datos del perfil:', this.admin);
 
     if (this.mostrarCambio) {
-      if (this.passwords.nueva.trim() === '' || this.passwords.confirmar.trim() === '') {
-        this.error = 'Debes llenar ambos campos de contraseña para cambiarla.';
+      if (!this.passwords.nueva || !this.passwords.confirmar) {
+        this.error = 'Debes llenar ambos campos de contraseña.';
         return;
       }
-      
-      if (this.passwords.nueva.trim().length < 6) {
-        this.error = 'La contraseña debe tener al menos 6 caracteres.';
-        return;
-      }
-      
       if (this.passwords.nueva !== this.passwords.confirmar) {
         this.error = 'Las contraseñas no coinciden.';
         return;
       }
-
-      console.log('Cambiando contraseña...');
-      // this.authService.cambiarContrasena(this.passwords.nueva).subscribe(response => {
-      //   console.log('Contraseña cambiada con éxito');
-      //   this.mostrarCambio = false; // Ocultar formulario de contraseña
-      //   this.passwords = { nueva: '', confirmar: '' }; // Limpiar campos
-      // }, err => {
-      //   this.error = 'Error al cambiar la contraseña.';
-      // });
+      if (this.passwords.nueva.length < 6) {
+        this.error = 'La contraseña debe tener al menos 6 caracteres.';
+        return;
+      }
     }
 
-    // Si no hubo errores (o no se cambió la contraseña), puedes mostrar un éxito
-    if (this.error === '') {
-      alert('¡Cambios guardados con éxito!');
-      this.mostrarCambio = false;
-      this.passwords = { nueva: '', confirmar: '' };
+    const body: any = {
+      usuario: this.admin.usuario,
+      email: this.admin.email,
+      telefono: this.admin.telefono
+    };
+
+    if (this.mostrarCambio) {
+      body.password = this.passwords.nueva;
     }
+
+    this.http.put(`http://localhost:3000/api/admins/${this.adminId}`, body).subscribe({
+      next: () => {
+        alert('¡Perfil actualizado con éxito!');
+        this.mostrarCambio = false;
+        this.passwords = { nueva: '', confirmar: '' };
+        // Opcional: recargar datos
+        this.cargarDatosUsuario();
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Error al actualizar el perfil.';
+      }
+    });
   }
 }
-

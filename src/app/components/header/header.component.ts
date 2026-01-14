@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../../api/auth.service';
+import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 import { ModalComponent } from '../modal/modal.component';
 import { RedactarAvisoComponent } from '../../redactar-aviso/redactar-aviso.component';

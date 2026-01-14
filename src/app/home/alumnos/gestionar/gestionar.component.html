@@ -1,14 +1,26 @@
 <div class="p-6 bg-gray-50 min-h-screen">
 
-  <div class="flex justify-between items-center mb-8">
-    <h1 class="text-3xl font-bold text-blue-800">
+  <div class="flex flex-row justify-between items-center mb-8 gap-4 bg-white p-4 rounded-xl shadow-sm">
+    
+    <h1 class="text-2xl font-bold text-blue-800 whitespace-nowrap">
       Registros de Alumnos
     </h1>
-    
-    <button (click)="openAgregarModal()"
-            class="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer shadow-md hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400">
-      <i class="fas fa-user-plus mr-2"></i> Agregar Alumno
-    </button>
+
+    <div class="flex items-center gap-4">
+      <div class="relative">
+        <input type="text" 
+               [(ngModel)]="searchText" 
+               (ngModelChange)="onSearchChange()"
+               placeholder="Buscar por nombre o matrícula..." 
+               class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none w-64 lg:w-96 shadow-sm bg-gray-50 transition-all focus:bg-white">
+        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+      </div>
+
+      <button (click)="openAgregarModal()"
+        class="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer shadow-md hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center whitespace-nowrap">
+        <i class="fas fa-user-plus mr-2"></i> Agregar Alumno
+      </button>
+    </div>
   </div>
 
   <div class="bg-white p-6 rounded-xl shadow-xl overflow-x-auto">
@@ -27,17 +39,27 @@
       </thead>
       
       <tbody class="divide-y divide-gray-200">
-        <ng-container *ngIf="alumnos && alumnos.length > 0; else noRecordsRow">
-          <tr *ngFor="let alumno of alumnos; let i = index" [ngClass]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'">
+        <ng-container *ngIf="alumnosFiltrados && alumnosFiltrados.length > 0; else noRecordsRow">
+          <tr *ngFor="let alumno of alumnosFiltrados; let i = index" [ngClass]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'">
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ alumno.Matricula }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ alumno.nombre }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ alumno.apellido_paterno }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ alumno.apellido_materno }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ alumno.email }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ alumno.telefono }}</td>
+            
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-              <button class="text-blue-600 hover:text-blue-900 mx-2">Editar</button>
-              <button class="text-red-600 hover:text-red-900 mx-2">Eliminar</button>
+              <div class="flex justify-center space-x-4">
+                <button (click)="openAgregarModal(alumno)" 
+                        class="text-blue-600 hover:text-blue-900 transition-colors cursor-pointer" 
+                        title="Editar Alumno">
+                  <i class="fa-solid fa-pen-to-square text-xl"></i>
+                </button>
+                
+                <button (click)="confirmarEliminar(alumno)" class="text-red-600 hover:text-red-900 transition-colors cursor-pointer" title="Eliminar Alumno">
+                  <i class="fa-solid fa-trash text-xl"></i>
+                </button>
+              </div>
             </td>
           </tr>
         </ng-container>
@@ -45,32 +67,87 @@
         <ng-template #noRecordsRow>
           <tr>
             <td colspan="7" class="text-center py-10 bg-white">
-              <p class="text-xl text-gray-500 font-semibold">No existen registros de alumnos.</p>
-              <p class="text-gray-400 mt-2">Haz clic en "Agregar Alumno" para empezar.</p>
+              <p class="text-xl text-gray-500 font-semibold">No se encontraron resultados.</p>
+              <p class="text-gray-400 mt-2">Intenta con otro término o agrega un nuevo alumno.</p>
             </td>
           </tr>
         </ng-template>
-
       </tbody>
     </table>
+
+    <div class="flex items-center justify-between px-4 py-4 bg-gray-50 border-t border-gray-200 rounded-b-xl">
+      <div class="flex flex-1 justify-between sm:hidden">
+        <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1" 
+                class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50">Anterior</button>
+        <button (click)="currentPage = currentPage + 1" [disabled]="currentPage >= totalPaginas"
+                class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50">Siguiente</button>
+      </div>
+      <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        <div>
+          <p class="text-sm text-gray-700">
+            Mostrando página <span class="font-bold text-blue-800">{{currentPage}}</span> de <span class="font-bold text-blue-800">{{totalPaginas || 1}}</span>
+          </p>
+        </div>
+        <div>
+          <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+            <button (click)="currentPage = currentPage - 1" [disabled]="currentPage === 1"
+                    class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 cursor-pointer">
+              <span class="sr-only">Anterior</span>
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            
+            <button (click)="currentPage = currentPage + 1" [disabled]="currentPage >= totalPaginas"
+                    class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 cursor-pointer">
+              <span class="sr-only">Siguiente</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </nav>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
+@if (isDeleteModalOpen) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" (click)="isDeleteModalOpen = false"></div>
+    <div class="bg-white rounded-2xl p-6 shadow-2xl relative z-10 w-full max-w-sm transform transition-all scale-110">
+      <div class="text-center">
+        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fa-solid fa-triangle-exclamation text-red-600 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">¿Estás seguro?</h3>
+        <p class="text-gray-600 mb-6">
+          Estás a punto de eliminar a <strong>{{ alumnoParaEliminar?.nombre }}</strong>. Esta acción no se puede deshacer.
+        </p>
+        <div class="flex space-x-3">
+          <button (click)="isDeleteModalOpen = false" class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition cursor-pointer">Cancelar</button>
+          <button (click)="eliminarAlumno()" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition cursor-pointer">Sí, eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
 
 @if (isAgregarModalOpen) {
   <div class="fixed inset-0 z-50 flex justify-end items-start">
-    <div class="absolute inset-0 backdrop-blur-sm bg-black/30" 
-         (click)="closeAgregarModal()"></div> 
+    <div class="absolute inset-0 backdrop-blur-sm bg-black/30 transition-opacity duration-300"
+      [ngClass]="{'opacity-0': !openingAgregar || closingAgregar, 'opacity-100': openingAgregar && !closingAgregar}"
+      (click)="closeAgregarModal()">
+    </div> 
 
-    <div class="bg-white w-[1000px] max-h-screen p-8 overflow-y-auto shadow-2xl relative">
-
-      <button class="absolute top-4 right-4 p-2 hover:bg-gray-200 rounded-full transition cursor-pointer z-50"
-          (click)="closeAgregarModal()">
-        <i class="fa-solid fa-xmark text-2xl text-gray-600 hover:text-black"></i>
+    <div class="bg-white w-[1000px] max-h-screen p-8 overflow-y-auto shadow-2xl relative transition-all duration-300"
+      [ngClass]="{'opacity-0 translate-y-4': !openingAgregar || closingAgregar, 'opacity-100 translate-y-0': openingAgregar && !closingAgregar}">
+      
+      <button (click)="closeAgregarModal()" class="absolute top-4 right-4 text-gray-400 hover:text-black transition cursor-pointer">
+        <i class="fa-solid fa-xmark text-2xl"></i>
       </button>
 
-      <app-agregar (alumnoAgregado)="closeAgregarModal()"></app-agregar>
-
+      <app-agregar 
+        [alumnoAEditar]="alumnoSeleccionado" 
+        (alumnoAgregado)="closeAgregarModal()">
+      </app-agregar>
     </div>
   </div>
 }

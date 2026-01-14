@@ -1,38 +1,49 @@
-<div class="flex items-start justify-center bg-gray-100 p-18 pt-10">
+<div class="flex items-start justify-center bg-gray-100 p-18 pt-10 min-h-screen">
   
   <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-lg">
     
     <h2 class="text-3xl font-bold mb-6 text-center text-blue-800">Agregar Administrador</h2>
     
-    <form>
+    <form [formGroup]="formAdmin" (ngSubmit)="guardarAdmin()">
       
-      <div class="mb-6">
+      <div class="mb-4">
         <label class="block text-blue-800 font-semibold mb-2">Usuario</label>
-        <input type="text" name="usuario" required class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
+        <input type="text" formControlName="usuario" 
+          class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200"
+          [ngClass]="{'border-red-500': formAdmin.get('usuario')?.invalid && formAdmin.get('usuario')?.touched}">
       </div>
 
-      <div class="mb-6">
+      <div class="mb-4">
         <label class="block text-blue-800 font-semibold mb-2">Email</label>
-        <input type="email" name="email" required class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
+        <input type="email" formControlName="email" 
+          class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200">
       </div>
 
-      <div class="mb-6">
-        <label class="block text-blue-800 font-semibold mb-2">Teléfono</label>
-        <input type="tel" name="telefono" required class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
+      <div class="mb-4">
+        <label class="block text-blue-800 font-semibold mb-2">Teléfono (10 dígitos)</label>
+        <input type="tel" formControlName="telefono" 
+          class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200">
       </div>
 
-      <div class="mb-6">
+      <div class="mb-4">
         <label class="block text-blue-800 font-semibold mb-2">Contraseña</label>
-        <input type="password" name="contraseña" required class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
+        <input type="password" formControlName="password" 
+          class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200">
       </div>
 
       <div class="mb-6">
         <label class="block text-blue-800 font-semibold mb-2">Confirmar contraseña</label>
-        <input type="password" name="contraseña" required class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200 hover:border-blue-400" />
+        <input type="password" formControlName="confirmarPassword" 
+          class="w-full border border-blue-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-sm transition duration-200"
+          [ngClass]="{'border-red-500': formAdmin.hasError('mismatch') && formAdmin.get('confirmarPassword')?.touched}">
+        <p *ngIf="formAdmin.hasError('mismatch') && formAdmin.get('confirmarPassword')?.touched" class="text-red-500 text-xs mt-1">
+          Las contraseñas no coinciden.
+        </p>
       </div>
 
       <div class="flex justify-center">
-        <button type="submit" class="bg-yellow-400 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-yellow-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer">
+        <button type="submit" [disabled]="formAdmin.invalid"
+          class="bg-yellow-400 text-white px-8 py-3 rounded-xl shadow-lg hover:bg-yellow-500 transition duration-300 disabled:bg-gray-300 disabled:cursor-not-allowed cursor-pointer font-bold">
           Guardar Administrador
         </button>
       </div>
@@ -40,4 +51,3 @@
     </form>
   </div>
 </div>
-  
